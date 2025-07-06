@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       mediumApiUrl: process.env.NUXT_PUBLIC_MEDIUM_API_URL,
       largeApiUrl: process.env.NUXT_PUBLIC_LARGE_API_URL,
       v6ApiUrl: process.env.NUXT_PUBLIC_V6_API_URL,
+      sunsetApiUrl: process.env.NUXT_PUBLIC_SUNSET_API_URL,
     },
   },
   future: { compatibilityVersion: 4 },

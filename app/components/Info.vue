@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LargeInfo, MediumInfo, V6Info } from "~~/types/info";
+import type { LargeInfo, MediumInfo, V6Info, SunsetInfo } from "~~/types/info";
 
 const SvgMap = defineAsyncComponent(() => import("@/components/Map.vue"));
 
@@ -24,6 +24,20 @@ const { data: info } = await useAsyncData("info", async () => {
     large,
     v6,
   };
+});
+
+const sunsetData = ref<Pick<SunsetInfo, "results"> | null>(null);
+
+watchEffect(async () => {
+  if (info.value?.medium?.Latitude && info.value?.medium?.Longitude) {
+    const res = await $fetch<SunsetInfo>(config.public.sunsetApiUrl, {
+      query: {
+        lat: info.value.medium.Latitude,
+        lng: info.value.medium.Longitude,
+      },
+    });
+    sunsetData.value = res?.results ?? null;
+  }
 });
 </script>
 
@@ -75,7 +89,7 @@ const { data: info } = await useAsyncData("info", async () => {
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-8 text-gray-700 dark:text-gray-400 text-sm [&>p]:flex [&>p]:items-center [&>p]:space-x-1 [&>p>a]:text-green-700 dark:[&>p>a]:text-green-400 [&>p>a]:hover:underline"
     >
-      <p>
+      <p title="City">
         <UIcon name="mingcute:location-line" size="15" />
         <a
           :href="`https://www.bing.com/search?q=${info?.medium?.City}`"
@@ -85,7 +99,7 @@ const { data: info } = await useAsyncData("info", async () => {
           >{{ info?.medium?.City }}</a
         >
       </p>
-      <p>
+      <p title="Country">
         <UIcon name="carbon:data-center" /><span>{{
           info?.medium?.CountryName
         }}</span>
@@ -97,7 +111,7 @@ const { data: info } = await useAsyncData("info", async () => {
           >({{ info?.medium?.CountryCode }})</a
         >
       </p>
-      <p>
+      <p title="Capital">
         <UIcon name="hugeicons:star" />
         <a
           :href="`https://en.wikipedia.org/wiki/${info?.medium?.Capital}`"
@@ -107,12 +121,12 @@ const { data: info } = await useAsyncData("info", async () => {
           >{{ info?.medium?.Capital }}</a
         >
       </p>
-      <p>
+      <p title="Time Zone">
         <UIcon name="icon-park-outline:time" /><span>{{
           info?.medium?.TimeZone
         }}</span>
       </p>
-      <p>
+      <p title="Coordinates">
         <UIcon name="solar:flip-vertical-line-duotone" size="12" />
         <a
           :href="`http://www.latlong.net/c/?lat=${info?.medium?.Latitude}&long=${info?.medium?.Longitude}`"
@@ -122,36 +136,36 @@ const { data: info } = await useAsyncData("info", async () => {
           >{{ info?.medium?.Latitude }}, {{ info?.medium?.Longitude }}</a
         >
       </p>
-      <p>
+      <p title="Region UTC">
         <UIcon name="mynaui:map" /><span
           >{{ info?.large?.timezone?.utc }} ({{
             info?.large?.region_code
           }})</span
         >
       </p>
-      <p>
+      <p title="Continent">
         <UIcon name="ion:earth-outline" /><span
           >{{ info?.medium?.ContinentName }} ({{
             info?.medium?.ContinentCode
           }})</span
         >
       </p>
-      <p>
+      <p title="Phone Prefix">
         <UIcon name="solar:phone-linear" /><span>{{
           info?.medium?.PhonePrefix
         }}</span>
       </p>
-      <p>
+      <p title="Postal Code">
         <UIcon name="solar:letter-linear" /><span>{{
           info?.medium?.Postal
         }}</span>
       </p>
-      <p>
+      <p title="ASN">
         <UIcon name="icon-park-outline:connection-arrow" size="11" /><span>{{
           info?.medium?.asn
         }}</span>
       </p>
-      <p>
+      <p title="Organization">
         <UIcon name="ep:connection" />
         <a
           :href="`https://${info?.large?.connection?.domain}`"
@@ -161,24 +175,67 @@ const { data: info } = await useAsyncData("info", async () => {
           >{{ info?.medium?.org }}</a
         >
       </p>
-      <p>
+      <p title="Currency">
         <UIcon name="solar:wad-of-money-linear" size="15" /><span>{{
           info?.medium?.Currency
         }}</span>
       </p>
-      <p>
+      <p title="USD Rate">
         <UIcon name="iconoir:dollar-circle" /><span>{{
           Number(info?.medium?.USDRate).toLocaleString()
         }}</span>
       </p>
-      <p>
+      <p title="EUR Rate">
         <UIcon name="material-symbols:euro" />
         <span>{{ Number(info?.medium?.EURRate).toLocaleString() }}</span>
       </p>
-      <p>
+      <p title="Weather">
         <UIcon name="mdi:weather-hail" size="15" /><span>{{
           info?.v6?.weather
         }}</span>
+      </p>
+    </div>
+
+    <USeparator class="my-4" />
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-8 text-gray-700 dark:text-gray-400 text-sm [&>p]:flex [&>p]:items-center [&>p]:space-x-1 [&>p>a]:text-green-700 dark:[&>p>a]:text-green-400 [&>p>a]:hover:underline"
+    >
+      <p title="Sunrise">
+        <UIcon name="ep:sunrise" size="16" />
+        <span>{{ sunsetData?.sunrise }}</span>
+      </p>
+      <p title="Solar Noon">
+        <UIcon name="solar:sun-outline" size="17" />
+        <span>{{ sunsetData?.solar_noon }}</span>
+      </p>
+      <p title="Sunset">
+        <UIcon name="ep:sunset" size="13" />
+        <span>{{ sunsetData?.sunset }}</span>
+      </p>
+      <p title="First Light">
+        <UIcon name="akar-icons:thunder" size="15" />
+        <span>{{ sunsetData?.first_light }}</span>
+      </p>
+      <p title="Last Light">
+        <UIcon name="solar:moon-line-duotone" size="14" />
+        <span>{{ sunsetData?.last_light }}</span>
+      </p>
+      <p title="Dawn">
+        <UIcon name="f7:light-max" size="16" />
+        <span>{{ sunsetData?.dawn }}</span>
+      </p>
+      <p title="Dusk">
+        <UIcon name="f7:light-min" size="16" />
+        <span>{{ sunsetData?.dusk }}</span>
+      </p>
+      <p title="Golden Hour">
+        <UIcon name="material-symbols-light:diamond-outline" size="15" />
+        <span>{{ sunsetData?.golden_hour }}</span>
+      </p>
+      <p title="Day Length">
+        <UIcon name="lets-icons:line-light" size="15" />
+        <span>{{ sunsetData?.day_length }}</span>
       </p>
     </div>
 

@@ -1,7 +1,7 @@
 {
   "name": "locanet",
   "description": "Detect user access location information along with IP address",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Tran Nguyen Thuong Truong",
     "email": "thuongtruongofficiial@gmail.com"

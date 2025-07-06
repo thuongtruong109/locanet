@@ -21,7 +21,7 @@
 <table>
   <thead>
     <tr>
-      <th>Feature</th>
+      <th>Features</th>
       <th>Technology / Library</th>
     </tr>
   </thead>
@@ -62,3 +62,6 @@
 <!-- Ip v6: https://6.ident.me/json - https://6.tnedi.me/json -->
 <!-- Only IP: https://api.iplocation.net/get-ip - https://api.iplocation.net/?cmd=get-ip - https://api.iplocation.net/?cmd=ip-country&ip=115.77.20.79 - https://api.iplocation.net/?ip=8.8.8.8 -->
 <!-- Medium Info: https://ipinfo.io/json - https://apip.cc/json -->
+<!-- Sunset: https://api.sunrisesunset.io/json?lat=38.907192&lng=-77.036873 -->
+<!-- All countries: https://jsonmock.hackerrank.com/api/countries -->
+<!-- ALL countries: https://www.apicountries.com/countries - https://www.apicountries.com/alpha/US -->
