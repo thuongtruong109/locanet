@@ -1,7 +1,6 @@
 import type {
   LargeInfo,
   MediumInfo,
-  V6Info,
   SunsetInfo,
   CountryInfo,
 } from "~~/types/info";
@@ -9,10 +8,9 @@ import type {
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
 
-  const [medium, large, v6] = await Promise.all([
+  const [medium, large] = await Promise.all([
     $fetch<MediumInfo>(config.mediumApiUrl),
     $fetch<LargeInfo>(config.largeApiUrl),
-    $fetch<V6Info>(config.v6ApiUrl),
   ]);
 
   let sunset: SunsetInfo["results"] | null = null;
@@ -43,13 +41,12 @@ export default defineEventHandler(async (event) => {
   setHeader(
     event,
     "Cache-Control",
-    "public, s-maxage=20, stale-while-revalidate=5",
+    "public, s-maxage=15, stale-while-revalidate=5",
   );
 
   return {
     medium,
     large,
-    v6,
     sunset,
     country,
   };

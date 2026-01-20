@@ -1,11 +1,25 @@
 export default defineNuxtConfig({
   modules: ["@nuxt/ui", "@nuxt/eslint", "@nuxt/icon", "@vite-pwa/nuxt"],
   devtools: { enabled: false },
+  app: {
+    head: {
+      title: "Nuxt",
+      htmlAttrs: {
+        lang: "en",
+      },
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      meta: [
+        {
+          httpEquiv: "Content-Security-Policy",
+          content: "upgrade-insecure-requests",
+        },
+      ],
+    },
+  },
   css: ["~/assets/main.css"],
   runtimeConfig: {
     mediumApiUrl: process.env.MEDIUM_API_URL,
     largeApiUrl: process.env.LARGE_API_URL,
-    v6ApiUrl: process.env.V6_API_URL,
     sunsetApiUrl: process.env.SUNSET_API_URL,
     countryApiUrl: process.env.COUNTRY_API_URL,
   },
@@ -24,14 +38,6 @@ export default defineNuxtConfig({
         commaDangle: "never",
       },
     },
-  },
-  head: {
-    meta: [
-      {
-        httpEquiv: "Content-Security-Policy",
-        content: "upgrade-insecure-requests",
-      },
-    ],
   },
   pwa: {
     registerType: "autoUpdate",

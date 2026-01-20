@@ -295,11 +295,6 @@ const { data: info } = await useFetch("/api/data", {
         <span>Day length:</span>
         <span>{{ info?.sunset?.day_length }}</span>
       </p>
-      <p title="Weather">
-        <UIcon name="mdi:weather-hail" size="15" />
-        <span>Weather code:</span>
-        <span>{{ info?.v6?.weather }}</span>
-      </p>
     </div>
 
     <ClientOnly>
