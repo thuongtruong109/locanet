@@ -3,15 +3,20 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   css: ["~/assets/main.css"],
   runtimeConfig: {
-    public: {
-      mediumApiUrl: process.env.NUXT_PUBLIC_MEDIUM_API_URL,
-      largeApiUrl: process.env.NUXT_PUBLIC_LARGE_API_URL,
-      v6ApiUrl: process.env.NUXT_PUBLIC_V6_API_URL,
-      sunsetApiUrl: process.env.NUXT_PUBLIC_SUNSET_API_URL,
+    mediumApiUrl: process.env.MEDIUM_API_URL,
+    largeApiUrl: process.env.LARGE_API_URL,
+    v6ApiUrl: process.env.V6_API_URL,
+    sunsetApiUrl: process.env.SUNSET_API_URL,
+    countryApiUrl: process.env.COUNTRY_API_URL,
+  },
+  routeRules: {
+    "/api/**": {
+      cors: true,
+      headers: { "access-control-allow-methods": "GET" },
     },
   },
   future: { compatibilityVersion: 4 },
-  compatibilityDate: "2025-06-28",
+  compatibilityDate: "2026-01-20",
   eslint: {
     config: {
       stylistic: {

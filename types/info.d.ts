@@ -1,6 +1,6 @@
 export interface MediumInfo {
   status: string;
-  query: string;
+  ip: string;
   CountryCode: string;
   CountryName: string;
   Capital: string;
@@ -37,7 +37,6 @@ export interface V6Info {
 }
 
 export interface LargeInfo {
-  "About Us": string;
   ip: string;
   success: boolean;
   type: string;
@@ -88,8 +87,42 @@ export interface SunsetInfo {
     solar_noon: string;
     golden_hour: string;
     day_length: string;
+    nautical_twilight_begin: string;
+    nautical_twilight_end: string;
     timezone: string;
     utc_offset: number;
   };
   status: string;
+}
+
+export interface CountryInfo {
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+  data: Array<{
+    name: string;
+    nativeName: string;
+    topLevelDomain: string[];
+    alpha2Code: string;
+    numericCode: string;
+    alpha3Code: string;
+    currencies: string[];
+    callingCodes: string[];
+    capital: string;
+    altSpellings: string[];
+    relevance: string;
+    region: string;
+    subregion: string;
+    language: string[];
+    languages: string[];
+    translations: Record<string, string>;
+    population: number;
+    latlng: number[];
+    demonym: string;
+    borders: string[];
+    area: number;
+    gini: number;
+    timezones: string[];
+  }>;
 }
