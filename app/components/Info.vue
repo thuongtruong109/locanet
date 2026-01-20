@@ -1,18 +1,73 @@
 <script setup lang="ts">
+import type {
+  LargeInfo,
+  MediumInfo,
+  SunsetInfo,
+  V6Info,
+  CountryInfo,
+} from "~~/types/info";
+
 import { joinStr, unitSI, areaSI, coordinateSI, formatTime } from "@/utils";
 
 const SvgMap = defineAsyncComponent(() => import("@/components/Map.vue"));
 
-const isV6 = ref<boolean>(false);
-const toggleV6 = () => {
-  isV6.value = !isV6.value;
+const isV6 = ref(false);
+const toggleV6 = () => (isV6.value = !isV6.value);
+
+const config = useRuntimeConfig();
+
+type InfoBundle = {
+  medium: MediumInfo | null;
+  large: LargeInfo | null;
+  sunset: SunsetInfo["results"] | null;
+  v6: V6Info | null;
+  country: CountryInfo["data"][0] | null;
 };
 
-const { data: info } = await useFetch("/api/data", {
-  key: "data-info",
-  lazy: false,
-  dedupe: "defer",
-});
+const { data: info } = await useAsyncData<InfoBundle>(
+  "data-info",
+  async () => {
+    const [medium, large, v6] = await Promise.all([
+      $fetch<MediumInfo>(config.public.mediumApiUrl as string),
+      $fetch<LargeInfo>(config.public.largeApiUrl as string),
+      $fetch<V6Info>(config.public.ipv6ApiUrl as string),
+    ]);
+
+    let sunset: SunsetInfo["results"] | null = null;
+    if (medium?.Latitude && medium?.Longitude) {
+      const res = await $fetch<SunsetInfo>(
+        config.public.sunsetApiUrl as string,
+        {
+          query: { lat: medium.Latitude, lng: medium.Longitude },
+        },
+      );
+      sunset = res?.results ?? null;
+    }
+
+    let country: CountryInfo["data"][0] | null = null;
+    if (large?.country) {
+      const res = await $fetch<CountryInfo>(
+        config.public.countryApiUrl as string,
+        {
+          query: { name: large.country },
+        },
+      );
+      country = res.data?.[0] ?? null;
+    }
+
+    return {
+      medium: medium ?? null,
+      large: large ?? null,
+      sunset,
+      v6: v6 ?? null,
+      country,
+    };
+  },
+  {
+    lazy: false,
+    dedupe: "defer",
+  },
+);
 </script>
 
 <template>
@@ -294,6 +349,11 @@ const { data: info } = await useFetch("/api/data", {
         <UIcon name="lets-icons:line-light" size="15" />
         <span>Day length:</span>
         <span>{{ info?.sunset?.day_length }}</span>
+      </p>
+      <p title="Weather">
+        <UIcon name="mdi:weather-hail" size="15" />
+        <span>Weather code:</span>
+        <span>{{ info?.v6?.weather }}</span>
       </p>
     </div>
 

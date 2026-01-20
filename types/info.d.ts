@@ -21,6 +21,21 @@ export interface MediumInfo {
   org: string;
 }
 
+export interface V6Info {
+  ip: string;
+  aso: string;
+  asn: number;
+  type: string;
+  continent: string;
+  cc: string;
+  country: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  tz: string;
+  weather: string;
+}
+
 export interface LargeInfo {
   ip: string;
   success: boolean;

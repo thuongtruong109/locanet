@@ -18,10 +18,13 @@ export default defineNuxtConfig({
   },
   css: ["~/assets/main.css"],
   runtimeConfig: {
-    mediumApiUrl: process.env.MEDIUM_API_URL,
-    largeApiUrl: process.env.LARGE_API_URL,
-    sunsetApiUrl: process.env.SUNSET_API_URL,
-    countryApiUrl: process.env.COUNTRY_API_URL,
+    public: {
+      mediumApiUrl: process.env.NUXT_PUBLIC_MEDIUM_API_URL,
+      largeApiUrl: process.env.NUXT_PUBLIC_LARGE_API_URL,
+      sunsetApiUrl: process.env.NUXT_PUBLIC_SUNSET_API_URL,
+      ipv6ApiUrl: process.env.NUXT_PUBLIC_IPV6_API_URL,
+      countryApiUrl: process.env.NUXT_PUBLIC_COUNTRY_API_URL,
+    },
   },
   routeRules: {
     "/api/**": {
