@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full text-center pt-4">
+  <div class="w-full pt-4 text-center">
     <UButton
-      class="cursor-pointer mb-2"
+      class="mb-2 cursor-pointer"
       variant="solid"
       color="primary"
       :disabled="testing"
@@ -16,18 +16,15 @@
       <span>{{ testing ? "Testing ..." : "Speed Test" }}</span>
     </UButton>
 
-    <p v-if="testing" class="text-sm text-gray-500 animate-pulse">
+    <p v-if="testing" class="animate-pulse text-sm text-gray-500">
       Testing... please wait
     </p>
 
-    <div
-      v-if="!testing && downloadSpeed && uploadSpeed"
-      class="w-full max-w-md mx-auto"
-    >
+    <div v-if="!testing && downloadSpeed && uploadSpeed" class="mx-auto w-full">
       <div
-        class="w-full h-3 bg-gray-200 rounded-full overflow-hidden flex shadow-inner"
+        class="flex h-2.5 w-full overflow-hidden rounded-full bg-gray-200 shadow-inner"
         :class="{
-          'animate-pulse': testing === 0,
+          'animate-pulse': testing,
         }"
       >
         <div
@@ -42,7 +39,7 @@
         />
       </div>
 
-      <div class="flex justify-between text-sm mt-2">
+      <div class="mt-2 flex justify-between text-sm">
         <span class="text-blue-600">Upload: {{ uploadSpeed }} Mbps</span>
         <span class="text-green-600">Download: {{ downloadSpeed }} Mbps</span>
       </div>
@@ -50,48 +47,60 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from "vue";
+<script setup lang="ts">
+const downloadSpeed = ref<number>(0); // MB/s
+const uploadSpeed = ref<number>(0); // MB/s
+const testing = ref<boolean>(false);
 
-const downloadSpeed = ref(0);
-const uploadSpeed = ref(0);
-const testing = ref(false);
-
-// const connectInfo = navigator.connection.effectiveType
-
-const totalSpeed = computed(() => {
-  return parseFloat(uploadSpeed.value) + parseFloat(downloadSpeed.value) || 1;
+// Total speed (avoid divide-by-zero)
+const totalSpeed = computed<number>(() => {
+  const total = downloadSpeed.value + uploadSpeed.value;
+  return total > 0 ? total : 1;
 });
 
-const uploadPercent = computed(() =>
-  ((uploadSpeed.value / totalSpeed.value) * 100).toFixed(2)
-);
-const downloadPercent = computed(() =>
-  ((downloadSpeed.value / totalSpeed.value) * 100).toFixed(2)
-);
+const uploadPercent = computed<string>(() => {
+  return ((uploadSpeed.value / totalSpeed.value) * 100).toFixed(2);
+});
 
-const runSpeedTest = async () => {
+const downloadPercent = computed<string>(() => {
+  return ((downloadSpeed.value / totalSpeed.value) * 100).toFixed(2);
+});
+
+const runSpeedTest = async (): Promise<void> => {
   testing.value = true;
 
-  const downloadUrl =
-    "https://raw.githubusercontent.com/thuongtruong109/locanet/main/public/banner.png";
-  const startDownload = performance.now();
-  const downloadResp = await fetch(downloadUrl);
-  const blob = await downloadResp.blob();
-  const endDownload = performance.now();
-  const sizeMB = blob.size / (1024 * 1024);
-  const durationSec = (endDownload - startDownload) / 1000;
-  downloadSpeed.value = (sizeMB / durationSec).toFixed(2);
+  try {
+    // Download test
+    const downloadUrl =
+      "https://raw.githubusercontent.com/thuongtruong109/locanet/main/public/banner.png";
 
-  const data = new Uint8Array(5 * 1024 * 1024);
-  const uploadStart = performance.now();
-  await fetch("https://httpbin.org/post", {
-    method: "POST",
-    body: data,
-  });
-  const uploadEnd = performance.now();
-  uploadSpeed.value = (5 / ((uploadEnd - uploadStart) / 1000)).toFixed(2);
+    const startDownload = performance.now();
+    const downloadResp = await fetch(downloadUrl, { cache: "no-store" });
+    const blob = await downloadResp.blob();
+    const endDownload = performance.now();
 
-  testing.value = false;
+    const sizeMB = blob.size / (1024 * 1024);
+    const durationSec = (endDownload - startDownload) / 1000;
+    downloadSpeed.value = Number((sizeMB / durationSec).toFixed(2));
+
+    // Upload test (5MB)
+    const data = new Uint8Array(5 * 1024 * 1024);
+    const uploadStart = performance.now();
+
+    await fetch("https://httpbin.org/post", {
+      method: "POST",
+      body: data,
+    });
+
+    const uploadEnd = performance.now();
+    const uploadDurationSec = (uploadEnd - uploadStart) / 1000;
+    uploadSpeed.value = Number((5 / uploadDurationSec).toFixed(2));
+  } catch (err) {
+    console.error("Speed test failed:", err);
+    downloadSpeed.value = 0;
+    uploadSpeed.value = 0;
+  } finally {
+    testing.value = false;
+  }
 };
 </script>

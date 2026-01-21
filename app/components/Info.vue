@@ -11,8 +11,11 @@ import { joinStr, unitSI, areaSI, coordinateSI, formatTime } from "@/utils";
 
 const SvgMap = defineAsyncComponent(() => import("@/components/Map.vue"));
 
-const isV6 = ref(false);
-const toggleV6 = () => (isV6.value = !isV6.value);
+const isV6 = ref<boolean>(false);
+
+const toggleV6 = (): void => {
+  isV6.value = !isV6.value;
+};
 
 const config = useRuntimeConfig();
 
@@ -72,7 +75,7 @@ const { data: info } = await useAsyncData<InfoBundle>(
 
 <template>
   <section class="w-full [&_p]:whitespace-nowrap">
-    <div class="flex justify-between items-center mb-4">
+    <div class="mb-4 flex items-center justify-between">
       <div class="flex items-center space-x-2">
         <img
           :src="`https://flagsapi.com/${info?.medium?.CountryCode}/flat/24.png`"
@@ -82,13 +85,13 @@ const { data: info } = await useAsyncData<InfoBundle>(
         />
 
         <p
-          class="text-sm sm:text-base md:text-lg font-bold text-gray-800 dark:text-gray-200 truncate overflow-hidden"
+          class="overflow-hidden truncate text-sm font-bold text-gray-800 sm:text-base md:text-lg dark:text-gray-200"
         >
           {{ isV6 ? info?.medium?.ip : info?.large?.ip }}
         </p>
       </div>
       <div
-        class="flex items-center border border-slate-200 dark:border-gray-700 rounded-md p-0.5 cursor-pointer"
+        class="flex cursor-pointer items-center rounded-md border border-slate-200 p-0.5 dark:border-gray-700"
       >
         <UButton
           type="button"
@@ -116,7 +119,7 @@ const { data: info } = await useAsyncData<InfoBundle>(
     </div>
 
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-8 text-gray-700 dark:text-gray-400 text-sm [&>p]:flex [&>p]:items-center [&>p]:space-x-1 [&>p>a]:text-green-700 dark:[&>p>a]:text-green-400 [&>p>a]:hover:underline"
+      class="grid grid-cols-1 gap-x-8 gap-y-3 text-sm text-gray-700 sm:grid-cols-2 md:grid-cols-3 dark:text-gray-400 [&>p>a]:text-green-700 [&>p>a]:hover:underline dark:[&>p>a]:text-green-400 [&>p]:flex [&>p]:items-center [&>p]:space-x-1"
     >
       <p title="City">
         <UIcon name="mingcute:location-line" size="15" />
@@ -225,7 +228,7 @@ const { data: info } = await useAsyncData<InfoBundle>(
     <USeparator class="my-4" />
 
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-8 text-gray-700 dark:text-gray-400 text-sm [&>p]:flex [&>p]:items-center [&>p]:space-x-1 [&>p>a]:text-green-700 dark:[&>p>a]:text-green-400 [&>p>a]:hover:underline"
+      class="grid grid-cols-1 gap-x-8 gap-y-3 text-sm text-gray-700 sm:grid-cols-2 md:grid-cols-3 dark:text-gray-400 [&>p>a]:text-green-700 [&>p>a]:hover:underline dark:[&>p>a]:text-green-400 [&>p]:flex [&>p]:items-center [&>p]:space-x-1"
     >
       <p title="Borders" class="col-span-2">
         <UIcon name="proicons:branch" size="15" />
@@ -297,7 +300,7 @@ const { data: info } = await useAsyncData<InfoBundle>(
     <USeparator class="my-4" />
 
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-8 text-gray-700 dark:text-gray-400 text-sm [&>p]:flex [&>p]:items-center [&>p]:space-x-1 [&>p>a]:text-green-700 dark:[&>p>a]:text-green-400 [&>p>a]:hover:underline"
+      class="grid grid-cols-1 gap-x-8 gap-y-3 text-sm text-gray-700 sm:grid-cols-2 md:grid-cols-3 dark:text-gray-400 [&>p>a]:text-green-700 [&>p>a]:hover:underline dark:[&>p>a]:text-green-400 [&>p]:flex [&>p]:items-center [&>p]:space-x-1"
     >
       <p title="Sunrise">
         <UIcon name="ep:sunrise" size="16" />

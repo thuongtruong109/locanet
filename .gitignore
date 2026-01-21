@@ -4,12 +4,12 @@ node_modules
 nuxt.d.ts
 .output
 .env
-.history
-db.sqlite
 dist
 .vercel
 .netlify
-db.sqlite-*
 .data
-.wrangler
 sw.*
+.nitro
+.DS_Store
+.fleet
+.idea

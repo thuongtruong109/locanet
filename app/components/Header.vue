@@ -10,7 +10,7 @@ const isDarkMode = computed({
 
 <template>
   <h3
-    class="text-xl font-semibold leading-6 drop-shadow-sm flex items-center space-x-0.5"
+    class="flex items-center space-x-0.5 text-xl font-semibold leading-6 drop-shadow-sm"
   >
     <Logo />
     <NuxtLink

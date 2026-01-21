@@ -86,15 +86,15 @@ function getGridItemClasses(index) {
 <template>
   <section class="flex flex-col items-center">
     <span
-      class="inline-block mb-3 text-xs font-medium rounded-full px-3 py-1 bg-blue-100 text-blue-600 dark:bg-blue-300/10 dark:text-blue-300"
+      class="mb-3 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-600 dark:bg-blue-300/10 dark:text-blue-300"
     >
       {{ badge }}
     </span>
 
-    <h2 class="text-sm sm:text-2xl font-medium mb-3">
+    <h2 class="mb-3 text-sm font-medium sm:text-2xl">
       {{ title }}
     </h2>
-    <p class="text-[#5B6B8A] text-sm sm:text-base max-w-xl mx-auto mb-12">
+    <p class="mx-auto mb-12 max-w-xl text-sm text-[#5B6B8A] sm:text-base">
       {{ description }}
     </p>
 
@@ -111,11 +111,11 @@ function getGridItemClasses(index) {
           height="40"
           class="mx-auto mb-3"
         />
-        <h3 class="text-base font-normal mb-1 text-center">
+        <h3 class="mb-1 text-center text-base font-normal">
           {{ feature.title }}
         </h3>
         <p
-          class="text-[#8B9AB8] text-xs sm:text-sm text-center max-w-[220px] mx-auto"
+          class="mx-auto max-w-[220px] text-center text-xs text-[#8B9AB8] sm:text-sm"
         >
           {{ feature.description }}
         </p>

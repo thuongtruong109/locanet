@@ -17,7 +17,7 @@ useSeoMeta({
 <template>
   <NuxtPwaManifest />
   <UApp>
-    <UContainer class="min-h-screen flex flex-col pt-4 space-y-8">
+    <UContainer class="flex min-h-screen flex-col space-y-8 pt-4">
       <UCard variant="subtle" color="primary">
         <template #header>
           <Header />
@@ -30,16 +30,17 @@ useSeoMeta({
             <template #fallback>
               <div class="p-4">
                 <div class="animate-pulse space-y-2">
-                  <div class="h-4 w-full bg-gray-200 rounded" />
-                  <div class="h-4 w-full bg-gray-200 rounded" />
-                  <div class="h-4 w-full bg-gray-200 rounded" />
+                  <div class="h-4 w-full rounded bg-gray-200" />
+                  <div class="h-4 w-full rounded bg-gray-200" />
+                  <div class="h-4 w-full rounded bg-gray-200" />
                 </div>
               </div>
             </template>
           </Suspense>
         </ClientOnly>
       </UCard>
-      <Landing />
+      <Features />
+      <Faq />
       <USeparator class="my-4" />
       <Footer />
     </UContainer>

@@ -34,7 +34,7 @@ type CoordinateType = "lat" | "lng";
 
 export const coordinateSI = (
   type: CoordinateType,
-  value: number | string,
+  value: number | string
 ): string => {
   const num = typeof value === "string" ? parseFloat(value) : value;
   if (Number.isNaN(num)) return "";

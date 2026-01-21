@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full h-full relative">
-    <div id="svgMap" ref="map" class="w-full h-full" />
+  <div class="relative h-full w-full">
+    <div id="svgMap" ref="map" class="h-full w-full" />
   </div>
 </template>
 

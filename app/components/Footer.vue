@@ -1,13 +1,13 @@
 <template>
   <footer class="flex flex-col items-center">
-    <span class="text-xs text-gray-400 mb-2 flex items-center space-x-0.5"
+    <span class="mb-2 flex items-center space-x-0.5 text-xs text-gray-400"
       ><UIcon name="akar-icons:question" /><span
         >We do not collect or store any users data</span
       ></span
     >
-    <div class="flex justify-between items-center w-full">
+    <div class="flex w-full items-center justify-between">
       <p
-        class="text-center text-xs flex items-center space-x-0.5 text-neutral-500 dark:text-neutral-400"
+        class="flex items-center space-x-0.5 text-center text-xs text-neutral-500 dark:text-neutral-400"
       >
         <span>Powered by</span>
         <a href="https://nuxt.com" class="text-(--ui-primary)">Nuxt</a>
@@ -15,7 +15,7 @@
         <a href="https://ui.nuxt.com" class="text-(--ui-primary)">NuxtUI</a>
       </p>
       <p
-        class="text-center text-xs flex items-center space-x-0.5 text-neutral-500 dark:text-neutral-400"
+        class="flex items-center space-x-0.5 text-center text-xs text-neutral-500 dark:text-neutral-400"
       >
         <span>Ported by</span>
         <a

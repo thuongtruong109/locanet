@@ -30,13 +30,28 @@
     "dev": "nuxi dev",
     "build": "nuxi build",
     "preview": "nuxi preview",
-    "lint": "eslint .",
-    "postinstall": "nuxt prepare"
+    "lint": "eslint . --fix",
+    "postinstall": "nuxt prepare",
+    "typecheck": "npx nuxi typecheck .",
+    "format": "prettier . --write",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{vue,ts,js,mjs}": [
+      "npm run format",
+      "npm run lint",
+      "npm run typecheck"
+    ],
+    "*.{css,scss,md,json}": [
+      "npm run format"
+    ]
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.49",
     "@iconify-json/simple-icons": "^1.2.38",
+    "@nuxt/fonts": "^0.12.1",
     "@nuxt/icon": "^1.14.0",
+    "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^3.1.3",
     "@vite-pwa/nuxt": "^1.0.4",
     "nuxt": "^4.2.2",
@@ -45,7 +60,16 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.4.1",
+    "@nuxt/types": "^2.18.1",
+    "@types/node": "^25.0.9",
     "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-tailwindcss": "^3.18.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.0",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.8.3"
   }
 }

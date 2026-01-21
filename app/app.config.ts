@@ -1,16 +1,16 @@
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'emerald'
+      primary: "emerald",
     },
     container: {
-      base: 'max-w-2xl'
+      base: "max-w-2xl",
     },
     card: {
       slots: {
-        header: 'flex flex-wrap items-center justify-between'
+        header: "flex flex-wrap items-center justify-between",
       },
-      body: 'space-y-4'
-    }
-  }
-})
+      body: "space-y-4",
+    },
+  },
+});
