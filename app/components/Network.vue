@@ -1,50 +1,55 @@
 <template>
-  <div class="w-full pt-4 text-center">
-    <UButton
-      class="mb-2 cursor-pointer"
-      variant="solid"
-      color="primary"
-      :disabled="testing"
-      @click="runSpeedTest"
-    >
-      <UIcon
-        :name="testing ? 'tdesign:load' : 'ic:outline-network-check'"
-        :class="{
-          'animate-spin': testing,
-        }"
-      />
-      <span>{{ testing ? "Testing ..." : "Speed Test" }}</span>
-    </UButton>
+  <ClientOnly>
+    <div class="w-full pt-4 text-center">
+      <UButton
+        class="mb-2 cursor-pointer"
+        variant="solid"
+        color="primary"
+        :disabled="testing"
+        @click="runSpeedTest"
+      >
+        <UIcon
+          :name="testing ? 'tdesign:load' : 'ic:outline-network-check'"
+          :class="{
+            'animate-spin': testing,
+          }"
+        />
+        <span>{{ testing ? "Testing ..." : "Speed Test" }}</span>
+      </UButton>
 
-    <p v-if="testing" class="animate-pulse text-sm text-gray-500">
-      Testing... please wait
-    </p>
+      <p v-if="testing" class="animate-pulse text-sm text-gray-500">
+        Testing... please wait
+      </p>
 
-    <div v-if="!testing && downloadSpeed && uploadSpeed" class="mx-auto w-full">
       <div
-        class="flex h-2.5 w-full overflow-hidden rounded-full bg-gray-200 shadow-inner"
-        :class="{
-          'animate-pulse': testing,
-        }"
+        v-if="!testing && downloadSpeed && uploadSpeed"
+        class="mx-auto w-full"
       >
         <div
-          class="bg-blue-500 transition-all duration-500"
-          :style="{ width: uploadPercent + '%' }"
-          title="Upload"
-        />
-        <div
-          class="bg-green-500 transition-all duration-500"
-          :style="{ width: downloadPercent + '%' }"
-          title="Download"
-        />
-      </div>
+          class="flex h-2.5 w-full overflow-hidden rounded-full bg-gray-200 shadow-inner"
+          :class="{
+            'animate-pulse': testing,
+          }"
+        >
+          <div
+            class="bg-blue-500 transition-all duration-500"
+            :style="{ width: uploadPercent + '%' }"
+            title="Upload"
+          />
+          <div
+            class="bg-green-500 transition-all duration-500"
+            :style="{ width: downloadPercent + '%' }"
+            title="Download"
+          />
+        </div>
 
-      <div class="mt-2 flex justify-between text-sm">
-        <span class="text-blue-600">Upload: {{ uploadSpeed }} Mbps</span>
-        <span class="text-green-600">Download: {{ downloadSpeed }} Mbps</span>
+        <div class="mt-2 flex justify-between text-sm">
+          <span class="text-blue-600">Upload: {{ uploadSpeed }} Mbps</span>
+          <span class="text-green-600">Download: {{ downloadSpeed }} Mbps</span>
+        </div>
       </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">

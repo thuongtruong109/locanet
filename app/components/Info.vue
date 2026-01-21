@@ -9,8 +9,6 @@ import type {
 
 import { joinStr, unitSI, areaSI, coordinateSI, formatTime } from "@/utils";
 
-const SvgMap = defineAsyncComponent(() => import("@/components/Map.vue"));
-
 const isV6 = ref<boolean>(false);
 
 const toggleV6 = (): void => {
@@ -360,18 +358,23 @@ const { data: info } = await useAsyncData<InfoBundle>(
       </p>
     </div>
 
-    <ClientOnly>
-      <Network />
-      <SvgMap
-        :country-code="info?.medium?.CountryCode"
-        :country-name="info?.medium?.CountryName"
-      />
-    </ClientOnly>
+    <Network />
+    <OpenMap
+      :center="[
+        Number(info?.medium?.Latitude) || 0,
+        Number(info?.medium?.Longitude) || 0,
+      ]"
+    />
   </section>
 </template>
 
 <style>
 .iconify {
   flex-shrink: 0;
+}
+
+.leaflet-container {
+  border-radius: 0.5rem;
+  border: 2px solid #3da8ff;
 }
 </style>

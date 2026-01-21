@@ -4,25 +4,23 @@
   </div>
 </template>
 
-<script setup>
-import { onMounted, ref, watch } from "vue";
+<script setup lang="ts">
 import svgMap from "svgmap";
 
-const props = defineProps({
-  countryCode: {
-    type: String,
-    default: "VN",
-  },
-  countryName: {
-    type: String,
-    default: "Vietnam",
-  },
+interface Props {
+  countryCode?: string;
+  countryName?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  countryCode: "VN",
+  countryName: "Vietnam",
 });
 
-const map = ref(null);
+const map = ref<any>(null);
 
 onMounted(async () => {
-  await new svgMap({
+  map.value = new (svgMap as any)({
     targetElementID: "svgMap",
     mouseWheelZoomEnabled: false,
     hideFlag: false,
@@ -40,7 +38,9 @@ onMounted(async () => {
       },
       applyData: "countresidents",
       values: {
-        [props.countryCode]: { countresidents: 99999999999 },
+        [props.countryCode]: {
+          countresidents: 99999999999,
+        },
       },
     },
   });
@@ -50,9 +50,12 @@ onMounted(async () => {
   }, 100);
 });
 
-const highlightCountry = (id) => {
+/**
+ * Highlight a country on the SVG map
+ */
+const highlightCountry = (id: string): void => {
   if (import.meta.client) {
-    const el = document?.querySelector(`[data-id="${id}"]`);
+    const el = document.querySelector<SVGElement>(`[data-id="${id}"]`);
     if (el) {
       el.setAttribute("fill", "#ff0000");
     }
@@ -63,7 +66,7 @@ watch(
   () => props.countryCode,
   (newVal) => {
     highlightCountry(newVal);
-  }
+  },
 );
 </script>
 
